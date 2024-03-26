@@ -14,10 +14,6 @@ We utilize Redis in this system for two main purposes:
 
 **Refresh Tokens**: Refresh tokens are stored in Redis to enable seamless user authentication and authorization. When a user authenticates or requests a new access token, their refresh token is retrieved from Redis. If the refresh token has expired, a new one is generated and stored in Redis for subsequent use.
 
-## ER Diagram
-
-![Screenshot 2024-03-26 at 01.42.44.png](..%2FScreenshot%202024-03-26%20at%2001.42.44.png)
-
 ## Installation
 Install docker 
 
