@@ -7,16 +7,16 @@ import {
   Body,
   UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { RefreshResponseDto } from './dto/refreshTokenResponse.dto';
 import { SignInResponseDto } from './dto/signInResponse.dto';
 import { User } from '../users/entities/user.entity';
-import JwtAuthenticationGuard from './guard/jwtAuthGuard.guard';
 import { UserCredentialsDto } from '../users/dto/userCredentialsDto.dto';
 import { CreateUserDto } from '../users/dto/createUser.dto';
 
 @Controller('auth')
-export class AuthContoller {
+export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
@@ -24,6 +24,7 @@ export class AuthContoller {
     return await this.authService.signUp(body);
   }
 
+  @UseGuards(AuthGuard('local'))
   @Post('/signin')
   async signIn(
     @Body() userCredentialsDto: UserCredentialsDto,
@@ -31,7 +32,7 @@ export class AuthContoller {
     return await this.authService.signIn(userCredentialsDto);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
+  @UseGuards(AuthGuard('jwt'))
   @Delete('signout/:userId')
   async signOut(
     @Param('userId', ParseIntPipe) userId: number,

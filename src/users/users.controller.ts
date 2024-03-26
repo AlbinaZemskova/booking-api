@@ -27,12 +27,12 @@ export class UsersController {
     return this.userService.getUserRooms(user.userId);
   }
 
-  @Patch('/rooms/roomId')
+  @Patch('/rooms/:roomId')
   bookedRoom(
     @Param('roomId', ParseIntPipe) roomId: number,
     @GetUser() user: User,
-  ): Promise<Room> {
-    return this.userService.bookedRoom(roomId);
+  ): Promise<string> {
+    return this.userService.bookedRoom(roomId, user);
   }
 
   @Get('/rooms/:roomId')
@@ -47,7 +47,7 @@ export class UsersController {
   cancelRoomReservation(
     @Param('roomId', ParseIntPipe) roomId: number,
     @GetUser() user: User,
-  ): Promise<any> {
-    return this.userService.cancelRoomReservation(roomId, user);
+  ): Promise<string> {
+    return this.userService.cancelRoomReservation(roomId, user.userId);
   }
 }
