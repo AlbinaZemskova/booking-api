@@ -58,7 +58,13 @@ export class RoomService {
     return this.roomRepository.delete({ RoomID: room.RoomID });
   }
 
-  async updateRoom(roomId: number, body: UpdateRoomBodyDto) {
+  /**
+   * Update room
+   *
+   * @param roomId
+   * @param body
+   */
+  async updateRoom(roomId: number, body: UpdateRoomBodyDto): Promise<void> {
     await this.getRoomById(roomId);
 
     await this.roomAttributesRepository.update(roomId, body);

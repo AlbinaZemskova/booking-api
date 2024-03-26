@@ -40,7 +40,7 @@ export class RoomsController {
   updateRoom(
     @Param('roomId', ParseIntPipe) roomId: number,
     @Body() body: UpdateRoomBodyDto,
-  ): Promise<any> {
+  ): Promise<void> {
     return this.roomService.updateRoom(roomId, body);
   }
 }

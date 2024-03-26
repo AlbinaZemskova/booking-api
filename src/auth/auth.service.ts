@@ -19,11 +19,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {
     if (!AuthService.redisInstance) {
-      // @ts-ignore
       AuthService.redisInstance = new Redis({
         keyPrefix: 'jwt-refresh_',
         host: process.env.REDIS_HOST || 'localhost',
-        port: parseInt(<string>process.env.REDIS_PORT) || '6379',
+        port: parseInt(<string>process.env.REDIS_PORT) || 6379,
       });
     }
   }
