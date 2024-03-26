@@ -5,6 +5,7 @@ import {
   Delete,
   Patch,
   Body,
+  Post,
   ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
@@ -14,6 +15,8 @@ import { RolesGuard } from '../users/guard/roleGuard.guard';
 import { Role } from '../users/enum/roles.enum';
 import { UpdateRoomBodyDto } from './dto/updateRoomBody.dto';
 import { Roles } from '../users/decorator/roles.decorator';
+import { RoomAttributes } from './entities/roomAttributes.entity';
+import { Room } from './entities/room.entity';
 
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 @Roles(Role.Admin)
@@ -27,12 +30,17 @@ export class RoomsController {
   }
 
   @Get('/:roomId')
-  getRoomById(@Param('roomId', ParseIntPipe) roomId: number): Promise<any> {
+  getRoomById(@Param('roomId', ParseIntPipe) roomId: number): Promise<Room> {
     return this.roomService.getRoomById(roomId);
   }
 
+  @Post()
+  createRoom(@Body() body: UpdateRoomBodyDto): Promise<RoomAttributes> {
+    return this.roomService.createRoom(body);
+  }
+
   @Delete('/:roomId')
-  deleteRoom(@Param('roomId', ParseIntPipe) roomId: number): Promise<any> {
+  deleteRoom(@Param('roomId', ParseIntPipe) roomId: number): Promise<void> {
     return this.roomService.deleteRoom(roomId);
   }
 

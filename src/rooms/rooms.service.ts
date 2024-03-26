@@ -31,7 +31,7 @@ export class RoomService {
   /**
    * Get one room
    */
-  async getRoomById(roomId: number) {
+  async getRoomById(roomId: number): Promise<Room> {
     const room = await this.roomRepository
       .createQueryBuilder('room')
       .innerJoinAndSelect(
@@ -50,12 +50,26 @@ export class RoomService {
   }
 
   /**
+   * Create room
+   *
+   * @param body
+   */
+  async createRoom(body: UpdateRoomBodyDto): Promise<RoomAttributes> {
+    const savedRoom = await this.roomRepository.save(new Room());
+
+    return await this.roomAttributesRepository.save({
+      ...body,
+      RoomID: savedRoom.RoomID,
+    });
+  }
+
+  /**
    * Delete room
    */
-  async deleteRoom(roomId: number) {
+  async deleteRoom(roomId: number): Promise<void> {
     const room: Room = await this.getRoomById(roomId);
 
-    return this.roomRepository.delete({ RoomID: room.RoomID });
+    await this.roomRepository.delete({ RoomID: room.RoomID });
   }
 
   /**
